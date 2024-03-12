@@ -1,10 +1,17 @@
 <template>
-  <h1 class="text-3xl font-bold my-6">Welcome to Meteor!</h1>
-    <ContactsFrom />
-    <contactList />
+  <navbar />
+  <div class="min-h-full">
+    <div class="max-w-4xl mx-auto p-2">
+      <ContactsFrom />
+      <contactList />
+    </div>
+  </div>
+      
 </template>
 
 <script setup>
 import contactList from './contactList.vue';
 import ContactsFrom from './ContactsFrom.vue';
+import navbar from './navbar.vue';
+
 </script>

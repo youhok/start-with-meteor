@@ -1,27 +1,38 @@
 <template>
-    <div>
-        <h3>Contact Form</h3>
+    <div class="mt-5">
         <form @submit.prevent="handleSubmit">
-            <div>
-                <label for="name">Name:</label>
-                <input type="text" id="name" v-model="formData.name" required>
+            <div class="mb-6">
+                <label for="Name" class="text-sm font-medium text-gray-900 block mb-2">Name</label>
+                <input type="name" id="Name"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    v-model="formData.name">
             </div>
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" v-model="formData.email" required>
+
+            <div class="mb-6">
+                <label for="Email" class="text-sm font-medium text-gray-900 block mb-2">Email</label>
+                <input type="email" id="email"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    v-model="formData.email">
             </div>
-            <div>
-                <label for="imageUrl">Image URL:</label>
-                <input type="text" id="imageUrl" v-model="formData.imageUrl">
+            <div class="mb-6">
+                <label for="imageUrl" class="text-sm font-medium text-gray-900 block mb-2">ImageUrl</label>
+                <input type="text" id="imageUrl"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    v-model="formData.imageUrl">
             </div>
-            <button type="submit">Submit</button>
+
+            <button type="submit"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
         </form>
+        <Alert />
     </div>
 </template>
 
 <script setup>
+import Alert from './components/Alert.vue';
 import { ref } from 'vue';
 import { Meteor } from 'meteor/meteor';
+import { push } from 'notivue'
 
 const formData = ref({
     name: '',
@@ -36,14 +47,23 @@ const handleSubmit = async () => {
             name: formData.value.name,
             email: formData.value.email,
             imageUrl: formData.value.imageUrl
+        }, (errorResponse) => {
+            if (errorResponse) {
+                // alert(errorResponse.error);
+                push.error(errorResponse.error)
+                console.log(errorResponse.error);
+            } else {
+                push.success("Insert Successful")
+                formData.value = {
+                    name: '',
+                    email: '',
+                    imageUrl: ''
+                };
+            }
         });
-        console.log('Data inserted successfully');
+
         // Reset the form data after successful insertion
-        formData.value = {
-            name: '',
-            email: '',
-            imageUrl: ''
-        };
+        console.log('Data inserted successfully');
 
         // Optionally, show a success message or navigate to another page
         console.log('Data inserted successfully');
